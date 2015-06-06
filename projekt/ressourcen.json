@@ -1,0 +1,47 @@
+{
+   "aktivitaet":[
+      {
+         "name":"Klettern"
+      },
+      {
+         "name":"Wandern"
+      },
+      {
+         "name":"Angeln"
+      }
+   ],
+
+   "Klettern":[
+      {
+         "name":"Klettern",
+         "maxGruppengroesse": 8,
+         "Gruppenanzahl": 3
+      }
+   ],
+   
+   "Wandern":[
+      {
+         "name":"Wandern",
+         "maxGruppengroesse": 10
+      }
+   ],
+   
+   "Angeln":[
+      {
+         "name":"Angeln",
+         "maxGruppengroesse": 3
+      }
+   ],
+   
+    "Gruppe":[
+      {
+         "name":"Klettern",
+         "gruppengroesse": 10,
+         "route": 1,
+         "datum": "02.05.2015",
+         "startzeit": "15:00",
+         "laenge": "3h",
+         "schwierigkeitsgrad": 
+      }
+   ]
+}
