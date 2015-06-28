@@ -1,122 +1,114 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
-var redis = require('redis');
-var db = redis.createClient();
+var ejs = require('ejs');
+var fs = require('fs');
+var http = require('http');
+
 var app = express();
+var db = redis.createClient();
+var jsonParser = body.Parser.json();
 
+app.use(bodyParser.json());
 
-app.use(bodyParser.json()) // benutzt für jeden http request den body parser, wird mit eingebunden
-
-
-app.post('/activity', function(req, res){
-	var newActivity = req.body; // der body enthält das bereits geparste JSON Objekt
-	db.incr('id:activity', function(err, rep){ //ID Counter für activity um eins erhöht
-		newActivity.id = rep;  // die ID der neuen activity auf den wert des counters setzen
-		db.set('activity:' + newActivity.id, JSON.stringify(newActivity), function(err, resp) {
-			res.json(newActivity);
-		});
+app.use(function(err, req, res, next){
+		console.error(err.stack);
+		res.end(err.status + ' ' + err.massage);
 	});
+};
+
+db.on('connect', function() { 
+    console.log('connected');
 });
 
+// Aktivitaet abrufen
+app.get('/aktivitaet/:id', function(req, res){
+            db.get('aktivitaet'+req.params.id, function(err, rep){
+                if(rep){
+                    res.type('json').send(rep);
+                }
+                else{
+                    res.status(404).type('text').send("Die Aktivitaet ist nicht vorhanden"); //noch anders lösen
+                }
+            });
+   });
 
-app.get('/activity/:id', function (req, res){ //pathparam ID
-    db.get('activity:' + req.params.id, function(err, rep) {
-        
-        if (rep) {
-            res.type('json').send(rep); // ist schon String, db weiß nicht dass es JSOn ist
-        }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' wurde nicht gefunden');
-        }
+// Gruppe abrufen
+app.get('/gruppen/:id', function(req, res){
+            db.get('gruppen:'+req.params.id, function(err, rep){
+                if(rep){
+                    res.type('json').send(rep);
+                }
+                else{
+                    res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + "ist nicht vorhanden");
+                }
+            });
+   });
+
+// Gruppe hinzufügen
+app.post('/gruppen', function(req, res){
+    
+    var newgruppe = req.body;
+    
+    db.incr('id:gruppen', function(err, rep){
+        newgruppe.id = rep;
+        db.set('gruppen:'+ newgruppe.id, JSON.stringify(newgruppe),function(err, rep){
+			res.type('json').send(newgruppe).end();
+		});
     });
+
 });
 
 
-//überschreibt eine Ressource mit neuen Werten
-app.put('/activity/:id', function (req, res){ 
-    db.exists('activity:' + req.params.id, function(err, rep) {
-        if (rep == 1){ //abfragen ob aktivity schon existiert
-            var updatedActivity = req.body;
-            updatedActivity.id = req.params.id;
-            db.set('activity: ' + req.params.id, JSON.stringify(updatedActivity), function(err, rep){
-                res.json(updatedActivity);
+// Gruppe löschen
+app.delete('/gruppen/:id', function(req, res){
+    db.exists('gruppen:'+req.params.id, function(err, rep){
+        if(rep === 1){
+            db.del('gruppen:'+req.params.id,function(err, rep){
+                var temp = JSON.parse(rep);
+                    res.send(temp).end();
             });
         }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' existiert nicht');
+        else{
+            res.status(404).send("Gruppe nich vorhanden!").end();   
         }
     });
 });
 
-
-app.delete('/activity/:id', function (req, res){ 
-    db.del('activity: ' + req.params.id, function(err, rep) {
-        if (rep == 1) {
-            res.status(200).type('text').send('OK');
-        }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' existiert nicht');
-        }
-    });
-});
-                
-
-
-app.get('/activity', function (req, res){ 
-    db.keys('activity:*', function(err, rep) { // alle keys holen die mit activity: beginnen
-        
-        var activities = []; // leeres Array um Activities zwischenzu speichern
-        
-        if (rep.length == 0) {
-            res.json(activities);
-            return;
-        }
-        
-        db.mget(rep, function(err, rep) { //hole die lister aller activities auf einaml
-            
-            //Iteriere über das Antwortarray und füge die activites dem array hinzu
-            rep.forEach(function(val){
-                activities.push(JSON.parse(val));
+//  Maximale Größe einer Gruppe abrufen
+app.get('/gruppen/:id/maxgroesse', function(req, res){ 
+   db.exists('gruppen:' + req.params.id, function(err, rep){
+       if(rep === 1){
+            db.get('gruppen:'+req.params.id+'/maxgroesse', function(err, rep){
+                if(rep){
+                    var temp = JSON.parse(rep);
+                    res.send(temp).end();
+                }
+                else{
+                    res.status(404).type('text').send("Maximale Größe der Gruppe nicht vorhanden");
+                }
             });
-            
-            //die eigenschaften rausfiltern die uns interessieren
-            activities = activities.map(function(activity) {
-                return { id: activity.id, ort: activity.ort};
-            });
-            
-            res.json(activities);
-        });
-    });
+       }
+       else {
+            res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + " ist nicht vorhanden");
+       }
+   });
 });
 
+// Maximale Größe der Gruppe anlegen
+app.post('/gruppen/:id/maxgroesse', function(req, res){
+	var newmaxgroesse = req.body;
+	db.get('gruppen:'+req.params.id, function(err, rep){
+       if(rep){
+		   db.set('gruppen:'+req.params.id+'/maxgroesse', JSON.stringify(newmaxgroesse),function(err, rep){
+			res.type('json').send(newmaxgroesse).end();
+		});
+       }
+       else{
+           res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + " ist nicht vorhanden");
+       }
+   });
 
-
-//Entität (Ressource) activities
-var activity = [
-    {title: "Klettern"},
-    {"grupengroesse": 8},
-    {"ort": "Route 1"}
-]
-
-var news = [
-	{title: "weather"}
-]
-
-app.get('/activity', function(req, res) {
-    res.status(200).json(activity);
 });
 
-
-app.post('/activity', jsonParser, function(req, res){
-	//vorausgesetzt das im req json übergeben wird
-	activity.push(req.body);
-    res.type('plain').send('Added new activity'); //header wird auf bestimmten content type gesetzt
-});
-
-
-app.get('/news', function(req, res) {
-    res.status(200).json(news);
-});
-
-app.listen(3000); // Anlegen eines Webservers 
+app.listen(3000);
