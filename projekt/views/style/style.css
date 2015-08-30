@@ -1,0 +1,279 @@
+/* ===============================================================================================
+                                        Allgemeine Settings
+   ===============================================================================================*/
+html, body{
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    font-family: Arial;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+
+/* ===============================================================================================
+                                        Landing-Page Settings
+   ===============================================================================================*/
+
+
+.home-section{
+    height: auto !important;
+    min-height: 100%;
+    overflow: hidden;
+    padding-top: 50px;
+    background: url(../pics/home.jpg) no-repeat center;
+    background-size: cover;
+    color: rgb(207, 207, 207);
+}
+
+#wrapper {
+    text-align: center;
+    margin-top: 20%;
+}
+
+#wrapper h1{
+    text-shadow: 2px 2px #000;
+}
+
+/* ===============================================================================================
+                                        Landing-Page-Menu
+   ===============================================================================================*/
+
+.nationalpark-options{
+    margin-top: 15px;
+    margin-left: -18px;
+    width: 647px;
+    text-shadow: none;
+}
+
+.activity-options{
+    margin-top: 15px;
+    margin-left: -18px;
+    width: 326px;
+    text-shadow: none;
+}
+
+.dropdown-menu li{
+    border-bottom: 1px solid black;
+}
+
+.dropdown-activity, .dropdown-ort, input[name="date"], .search{
+    border:2px solid darkgrey;
+    border-right: none;
+    vertical-align: middle;
+    font-size: 12pt;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 15px;
+    list-style-type:none;
+    float: left;
+    width: 100%;
+    height: 50px;
+    color: white;
+    text-shadow: 2px 2px #000;
+}
+
+input[name="date"]{
+    width: 65%;
+    color:black;
+    text-shadow: none;
+}
+
+.search{
+    width: 20%;
+    border: none;
+}
+
+
+.dropdown-activity a, .dropdown-ort a{
+    color: darkgrey;
+}
+
+.dropdown-arrow{
+    float: right;
+    padding-right: 15px;
+    margin-top: -18px;
+}
+
+li.page-scroll.active{
+    background: transparent;
+    border: 1px black solid;
+
+}
+
+
+/* ===============================================================================================
+                                        Banner
+   ===============================================================================================*/
+
+
+.activity-box{
+    background-color: rgb(0, 150, 64);
+    height: 100px;
+    margin-top: 184px;
+    margin-left: -50px;
+    vertical-align: middle;
+}
+
+.activity-section{
+    margin-top: -15%;
+}
+
+/* ===============================================================================================
+                                        Group-Content
+   ===============================================================================================*/
+
+.button-wrapper{
+    margin-top: 60px;
+}
+
+#zurueck{
+    border-right: 2px solid black;
+}
+#new-group{
+    border-left: 2px solid black;
+    margin-left: -4px;
+}
+
+.group-wrapper{
+    width: 100%;
+    height: 400px;
+    border: 1px solid grey;
+}
+
+.g1{
+    width:23%;
+    max-width: 33%;
+    margin-top: 10%;
+    float:left;
+    margin-left: 10%;
+}
+.g2{
+    width:23%;
+    max-width: 33%;
+    float: left;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.g3{
+    width:23%;
+    max-width: 25%;
+    float:left;
+    margin-top: 10%;
+    margin-right: 10%;
+}
+
+.g1, .g2, .g3, .g4, .g5, .g6{
+   border: 1px solid darkgrey;
+    list-style: none;
+    text-align: center;
+}
+
+.g1 a, .g2 a, .g3 a, .g4 a, .g5 a, .g6 a{
+    color: black;
+}
+
+.g1 .dropdown-arrow, .g2 .dropdown-arrow, .g3 .dropdown-arrow,
+.g4 .dropdown-arrow, .g5 .dropdown-arrow, .g6 .dropdown-arrow{
+    margin-top: 1px;
+}
+
+.g1 ul, .g2 ul, .g3 ul{
+    width: 220px;
+}
+.g1 ul li{
+    font-size: 0.72em;
+}
+
+.g3 .datepicker{
+    height: auto;
+    width: 100%;
+    border: none;
+}
+
+.g4{
+    width:23%;
+    max-width: 33%;
+    float:left;
+    margin-left: 10%;
+}
+
+.g5{
+    width:23%;
+    max-width: 33%;
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.g6{
+    width:23%;
+    max-width: 25%;
+    float:left;
+    margin-right: 10%;
+}
+
+.g4, .g5, .g6{
+    margin-top: 10%;
+    float: left;
+}
+
+.row3{
+    margin-top: 5%;
+    float: right;
+    margin-right: 11%;
+}
+
+/* ===============================================================================================
+                                        Sonstiges
+   ===============================================================================================*/
+
+
+.about-section{
+    height: auto !important;
+    min-height: 100%;
+    overflow: hidden;
+    padding-top: 50px;
+}
+.contact-section{
+    height: auto !important;
+    min-height: 100%;
+    overflow: hidden;
+    padding-top: 50px;
+}
+
+/* ===============================================================================================
+                                        Bootstrap-überschreiben
+   ===============================================================================================*/
+
+
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a{
+    background-image: none;
+    background-color: #5cb85c;
+
+}
+
+.col-md-2,.col-md-3, .col-md-6{
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+
+
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 970px;
+    }
+}

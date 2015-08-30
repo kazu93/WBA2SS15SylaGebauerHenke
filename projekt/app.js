@@ -1,122 +1,46 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json();
-var redis = require('redis');
-var db = redis.createClient();
-var app = express();
+var express = require('express'),
+ engine = require('ejs-locals'),
+ app = express();
 
+ exports.init = function(port) {
 
-app.use(bodyParser.json()) // benutzt für jeden http request den body parser, wird mit eingebunden
+	app.locals({
+		_layoutFile:'layout.ejs'
+	})
 
-
-app.post('/activity', function(req, res){
-	var newActivity = req.body; // der body enthält das bereits geparste JSON Objekt
-	db.incr('id:activity', function(err, rep){ //ID Counter für activity um eins erhöht
-		newActivity.id = rep;  // die ID der neuen activity auf den wert des counters setzen
-		db.set('activity:' + newActivity.id, JSON.stringify(newActivity), function(err, resp) {
-			res.json(newActivity);
-		});
+	app.configure(function(){
+		app.set('views', __dirname + '/views');
+		app.set('view engine', 'ejs');
+		app.use(express.static(__dirname + '/static'));
+		app.use(express.bodyParser());
+		app.use(express.methodOverride());
+		app.use(express.cookieParser());
+		app.use(express.cookieSession({cookie:{path:'/',httpOnly:true,maxAge:null},secret:'skeletor'}));
+		app.use(app.router);
+		app.enable("jsonp callback");
 	});
-});
 
+	app.engine('ejs', engine);
 
-app.get('/activity/:id', function (req, res){ //pathparam ID
-    db.get('activity:' + req.params.id, function(err, rep) {
-        
-        if (rep) {
-            res.type('json').send(rep); // ist schon String, db weiß nicht dass es JSOn ist
-        }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' wurde nicht gefunden');
-        }
-    });
-});
+	app.configure('development', function(){
+	   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+	});
 
+	app.configure('production', function(){
+	   app.use(express.errorHandler());
+	});
 
-//überschreibt eine Ressource mit neuen Werten
-app.put('/activity/:id', function (req, res){ 
-    db.exists('activity:' + req.params.id, function(err, rep) {
-        if (rep == 1){ //abfragen ob aktivity schon existiert
-            var updatedActivity = req.body;
-            updatedActivity.id = req.params.id;
-            db.set('activity: ' + req.params.id, JSON.stringify(updatedActivity), function(err, rep){
-                res.json(updatedActivity);
-            });
-        }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' existiert nicht');
-        }
-    });
-});
+	app.use(function(err, req, res, next){
+	   res.render('500.ejs', { locals: { error: err },status: 500 });
+	});
 
+	server = app.listen(port);
+	console.log("Listening on port %d in %s mode", server.address().port, app.settings.env);
 
-app.delete('/activity/:id', function (req, res){ 
-    db.del('activity: ' + req.params.id, function(err, rep) {
-        if (rep == 1) {
-            res.status(200).type('text').send('OK');
-        }
-        else {
-            res.status(404).type('text').send('Die Aktivität mit der ID ' + req.params.id + ' existiert nicht');
-        }
-    });
-});
-                
+	return app;
+	}
 
+app.use(express.cookieParser());
+app.use(express.cookieSession({cookie:{path:'/',httpOnly:true,maxAge:null},secret:'skeletor'}));
 
-app.get('/activity', function (req, res){ 
-    db.keys('activity:*', function(err, rep) { // alle keys holen die mit activity: beginnen
-        
-        var activities = []; // leeres Array um Activities zwischenzu speichern
-        
-        if (rep.length == 0) {
-            res.json(activities);
-            return;
-        }
-        
-        db.mget(rep, function(err, rep) { //hole die lister aller activities auf einaml
-            
-            //Iteriere über das Antwortarray und füge die activites dem array hinzu
-            rep.forEach(function(val){
-                activities.push(JSON.parse(val));
-            });
-            
-            //die eigenschaften rausfiltern die uns interessieren
-            activities = activities.map(function(activity) {
-                return { id: activity.id, ort: activity.ort};
-            });
-            
-            res.json(activities);
-        });
-    });
-});
-
-
-
-//Entität (Ressource) activities
-var activity = [
-    {title: "Klettern"},
-    {"grupengroesse": 8},
-    {"ort": "Route 1"}
-]
-
-var news = [
-	{title: "weather"}
-]
-
-app.get('/activity', function(req, res) {
-    res.status(200).json(activity);
-});
-
-
-app.post('/activity', jsonParser, function(req, res){
-	//vorausgesetzt das im req json übergeben wird
-	activity.push(req.body);
-    res.type('plain').send('Added new activity'); //header wird auf bestimmten content type gesetzt
-});
-
-
-app.get('/news', function(req, res) {
-    res.status(200).json(news);
-});
-
-app.listen(3000); // Anlegen eines Webservers 
+app.use(express.static(__dirname + '/static'));
