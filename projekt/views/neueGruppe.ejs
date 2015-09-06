@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/datepicker.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <title>Nationalparkentdecker</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.js"></script>
+    <script src="../js/bootstrap-datepicker.de.js"></script>
+    <script src="../js/jquery_content.js"></script>
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" data-offset="50">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"> <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+
+            </button>
+            <a class="navbar-brand" rel="home" href="#" title="Buy Sell Rent Everyting">
+                <!--          <img src="http://placehold.it/100x20/fff/fff">-->
+
+            </a>
+
+        </div>
+        <div class="logo">
+            <a href="#"><img src="/pic/logo.png" alt="Nationalparkentdecker Logo" width="180px" height="120px"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+
+                <li class="page-scroll"><a href="#">Login</a>
+
+                </li>
+                <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Parkinfos <b class="caret"></b></a>
+
+                    <ul role="menu" class="dropdown-menu page-scroll">
+                        <li><a href="#">Bayerischer Wald (BY)</a></li>
+                        <li><a href="#">Berchtesgaden (BY)</a></li>
+                        <li><a href="#">Eifel (NRW)</a></li>
+                        <li><a href="#">Hainich (TH)</a></li>
+                        <li><a href="#">Hamburgisches Wattenmeer (HH)</a></li>
+                        <li><a href="#">Harz (ST, NI)</a></li>
+                        <li><a href="#">Hunsrück-Hochwald (SL, RP)</a></li>
+                        <li><a href="#">Jasmund (MV)</a></li>
+                        <li><a href="#">Kellerwald-Edersee (HE)</a></li>
+                        <li><a href="#">Müritz (MV)</a></li>
+                        <li><a href="#">Niedersächsisches Wattenmeer (NI)</a></li>
+                        <li><a href="#">Sächsische Schweiz (SN)</a></li>
+                        <li><a href="#">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
+                        <li><a href="#">Schwarzwald (BW)</a></li>
+                        <li><a href="#">Unteres Odertal (BB)</a></li>
+                        <li><a href="#">Vorpommersche Boddenlandschaft (MV)</a></li>
+                    </ul>
+                </li>
+
+                <li class="page-scroll"><a href="#">Kontakt</a>
+
+                </li>
+                <li class="page-scroll"><a href="#">Hilfe</a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="home-section">
+    <div class="container">
+        <h1>Finde deine Gruppe</h1>
+        <h2>und entdeckt zusammen den Park</h2>
+        <form class="form-horizontal" id="search-form" action="/search" role="form" method="post">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nationalpark">Nationalpark <span class="caret"></span>
+
+                    </button>
+                    <ul class="dropdown-menu" id="ort">
+                        <li><a href="#">Bayerischer Wald (BY)</a></li>
+                        <li><a href="#">Berchtesgaden (BY)</a></li>
+                        <li><a href="#">Eifel (NRW)</a></li>
+                        <li><a href="#">Hainich (TH)</a></li>
+                        <li><a href="#">Hamburgisches Wattenmeer (HH)</a></li>
+                        <li><a href="#">Harz (ST, NI)</a></li>
+                        <li><a href="#">Hunsrück-Hochwald (SL, RP)</a></li>
+                        <li><a href="#">Jasmund (MV)</a></li>
+                        <li><a href="#">Kellerwald-Edersee (HE)</a></li>
+                        <li><a href="#">Müritz (MV)</a></li>
+                        <li><a href="#">Niedersächsisches Wattenmeer (NI)</a></li>
+                        <li><a href="#">Sächsische Schweiz (SN)</a></li>
+                        <li><a href="#">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
+                        <li><a href="#">Schwarzwald (BW)</a></li>
+                        <li><a href="#">Unteres Odertal (BB)</a></li>
+                        <li style="border-bottom: none;"><a href="#">Vorpommersche Boddenlandschaft (MV)</a></li>
+                    </ul>
+                </div>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle drop-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="aktivitat">Aktivität <span class="caret"></span>
+
+                    </button>
+
+                    <ul class="dropdown-menu" id="aktivitat-menu">
+                        <li><a href="#">Klettern</a></li>
+                        <li><a href="#">Wandern</a></li>
+                        <li><a href="#">Angeln</a></li>
+                        <li><a href="#">Kanufahren</a></li>
+                        <li><a href="#">Mountainbiking</a></li>
+                        <li><a href="#">Geocaching</a></li>
+                        <li><a href="#">Reiten</a></li>
+                        <li><a href="#">Hiking</a></li>
+                        <li><a href="#">Wattwandern</a>
+                        <li style="border-bottom: none;"><a href="#">Jagen</a>
+
+                        </li>
+                    </ul>
+                </div>
+                <!-- /btn-group -->
+                <!-- /btn-group -->
+                <input type="text" class="form-control datepicker" name="date" placeholder="Datum auswählen"><span class="input-group-btn">
+
+        <button type="button" class="btn btn-success search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+
+          </span>
+
+            </div>
+            <!-- /input-group -->
+        </form>
+
+
+    </div>
+</div>
+<div class="container">
+    <div id="aktivitäten" class="well well-green">
+        <h3>Klettern</h3>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Neue Gruppe erstellen</h4>
+        </div>
+    </div>
+    <fieldset class="fieldset-border">
+        <form id="park-form" role="form" method="post" action="/new">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Nationalpark
+                        <select class="form-control" name="ort">
+                            <option>Bayerischer Wald (BY)</option>
+                            <option>Berchtesgaden (BY)</option>
+                            <option>Eifel (NRW)</option>
+                            <option>Hainich (TH)</option>
+                            <option>Hamburgisches Wattenmeer (HH)</option>
+                            <option>Harz (ST, NI)</option>
+                            <option>Hunsrück-Hochwald (SL, RP)</option>
+                            <option>Jasmund (MV)</option>
+                            <option>Kellerwald-Edersee (HE)</option>
+                            <option>Müritz (MV)</option>
+                            <option>Niedersächsisches Wattenmeer (NI)</option>
+                            <option>Sächsische Schweiz (SN)</option>
+                            <option>Schleswig-Holsteinisches Wattenmeer (SH)</option>
+                            <option>Schwarzwald (BW)</option>
+                            <option>Unteres Odertal (BB)</option>
+                            <option>Vorpommersche Boddenlandschaft (MV)</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Aktivität
+                        <select class="form-control" name="activity">
+                            <option>Klettern</option>
+                            <option>Wandern</option>
+                            <option>Angeln</option>
+                            <option>Kanufahren</option>
+                            <option>Mountainbiking</option>
+                            <option>Geocaching</option>
+                            <option>Reiten</option>
+                            <option>Hiking</option>
+                            <option>Wattwandern</option>
+                            <option>Jagen</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+
+                    <div class="form-group">
+                        Teilnehmeranzahl
+                        <select class="form-control" name="teilnehmerzahl">
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option>15</option>
+                        </select>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Schwierigkeitsgrad
+                        <select class="form-control" name="schwierigkeit">
+                            <option>Anfänger</option>
+                            <option>Fortgeschrittene</option>
+                            <option>Profis</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Dauer
+                        <select class="form-control" name="dauer">
+                            <option>1h</option>
+                            <option>1,5h</option>
+                            <option>2h</option>
+                            <option>2,5h</option>
+                            <option>3h</option>
+                            <option>3,5h</option>
+                            <option>4h</option>
+                            <option>4,5h</option>
+                            <option>5h</option>
+                            <option>5,5h</option>
+                            <option>6h</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Datum
+                        <input type="text" class="form-control datepicker" placeholder="wählen" name="dateform">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Startzeit
+                        <input type="time" name="time" class="form-control" placeholder="12:00">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        Treffpunkt
+                        <input type="text" class="form-control" placeholder="Wo?" name="treffpunkt">
+                    </div>
+                </div>
+            </div>
+            </br>
+            </br>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a href="filterergebnis.html"><button type="button" class="btn btn-success" id="zurueck"> Zurück</button></a>
+                    <button type="button" class="btn btn-success" id="bestaetigen">Bestätigen</button>
+                    <input type="submit" class="btn btn-success" value="Bestätig">
+                </div>
+            </div>
+        </form>
+    </fieldset>
+
+</div>
+</body>
+</html>

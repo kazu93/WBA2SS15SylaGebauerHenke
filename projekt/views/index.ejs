@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/datepicker.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+<title>Nationalparkentdecker</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.js"></script>
+    <script src="../js/bootstrap-datepicker.de.js"></script>
+    <script src="../js/jquery_content.js"></script>
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" data-offset="50">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"> <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+
+            </button>
+            <a class="navbar-brand" rel="home" href="#" title="Buy Sell Rent Everyting">
+
+            </a>
+
+        </div>
+        <div class="logo">
+            <a href="#"><img src="/pic/logo.png" alt="Nationalparkentdecker Logo" width="180px" height="120px"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+
+                <li class="page-scroll"><a href="#">Login</a>
+
+                </li>
+                <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Parkinfos <b class="caret"></b></a>
+
+                    <ul role="menu" class="dropdown-menu page-scroll">
+                        <li><a href="#">Bayerischer Wald (BY)</a></li>
+                        <li><a href="#">Berchtesgaden (BY)</a></li>
+                        <li><a href="#">Eifel (NRW)</a></li>
+                        <li><a href="#">Hainich (TH)</a></li>
+                        <li><a href="#">Hamburgisches Wattenmeer (HH)</a></li>
+                        <li><a href="#">Harz (ST, NI)</a></li>
+                        <li><a href="#">Hunsrück-Hochwald (SL, RP)</a></li>
+                        <li><a href="#">Jasmund (MV)</a></li>
+                        <li><a href="#">Kellerwald-Edersee (HE)</a></li>
+                        <li><a href="#">Müritz (MV)</a></li>
+                        <li><a href="#">Niedersächsisches Wattenmeer (NI)</a></li>
+                        <li><a href="#">Sächsische Schweiz (SN)</a></li>
+                        <li><a href="#">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
+                        <li><a href="#">Schwarzwald (BW)</a></li>
+                        <li><a href="#">Unteres Odertal (BB)</a></li>
+                        <li><a href="#">Vorpommersche Boddenlandschaft (MV)</a></li>
+                    </ul>
+                </li>
+
+                <li class="page-scroll"><a href="#">Kontakt</a>
+
+                </li>
+                <li class="page-scroll"><a href="#">Hilfe</a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="home-section">
+    <div class="container">
+        <h1>Finde deine Gruppe</h1>
+        <h2>und entdeckt zusammen den Park</h2>
+        <form class="form-horizontal" id="search-form" action="/search" role="form" method="post">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nationalpark">Nationalpark <span class="caret"></span>
+
+                    </button>
+                    <ul class="dropdown-menu" id="ort">
+                        <li><a href="#">Bayerischer Wald (BY)</a></li>
+                        <li><a href="#">Berchtesgaden (BY)</a></li>
+                        <li><a href="#">Eifel (NRW)</a></li>
+                        <li><a href="#">Hainich (TH)</a></li>
+                        <li><a href="#">Hamburgisches Wattenmeer (HH)</a></li>
+                        <li><a href="#">Harz (ST, NI)</a></li>
+                        <li><a href="#">Hunsrück-Hochwald (SL, RP)</a></li>
+                        <li><a href="#">Jasmund (MV)</a></li>
+                        <li><a href="#">Kellerwald-Edersee (HE)</a></li>
+                        <li><a href="#">Müritz (MV)</a></li>
+                        <li><a href="#">Niedersächsisches Wattenmeer (NI)</a></li>
+                        <li><a href="#">Sächsische Schweiz (SN)</a></li>
+                        <li><a href="#">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
+                        <li><a href="#">Schwarzwald (BW)</a></li>
+                        <li><a href="#">Unteres Odertal (BB)</a></li>
+                        <li style="border-bottom: none;"><a href="#">Vorpommersche Boddenlandschaft (MV)</a></li>
+                    </ul>
+                </div>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle drop-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="aktivitat">Aktivität <span class="caret"></span>
+
+                    </button>
+
+                    <ul class="dropdown-menu" id="aktivitat-menu">
+                        <li><a href="#">Klettern</a></li>
+                        <li><a href="#">Wandern</a></li>
+                        <li><a href="#">Angeln</a></li>
+                        <li><a href="#">Kanufahren</a></li>
+                        <li><a href="#">Mountainbiking</a></li>
+                        <li><a href="#">Geocaching</a></li>
+                        <li><a href="#">Reiten</a></li>
+                        <li><a href="#">Hiking</a></li>
+                        <li><a href="#">Wattwandern</a>
+                        <li style="border-bottom: none;"><a href="#">Jagen</a>
+
+                        </li>
+                    </ul>
+                </div>
+                <!-- /btn-group -->
+                <!-- /btn-group -->
+                <input type="text" class="form-control datepicker" name="date" placeholder="Datum auswählen"><span class="input-group-btn">
+
+        <button type="button" class="btn btn-success search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+
+          </span>
+
+            </div>
+            <!-- /input-group -->
+        </form>
+
+
+    </div>
+</div>
+
+</body>
+</html>

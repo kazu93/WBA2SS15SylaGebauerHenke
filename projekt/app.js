@@ -1,163 +1,233 @@
-<<<<<<< HEAD
-var express = require('express'),
- engine = require('ejs-locals'),
- app = express();
 
- exports.init = function(port) {
-
-	app.locals({
-		_layoutFile:'layout.ejs'
-	})
-
-	app.configure(function(){
-		app.set('views', __dirname + '/views');
-		app.set('view engine', 'ejs');
-		app.use(express.static(__dirname + '/static'));
-		app.use(express.bodyParser());
-		app.use(express.methodOverride());
-		app.use(express.cookieParser());
-		app.use(express.cookieSession({cookie:{path:'/',httpOnly:true,maxAge:null},secret:'skeletor'}));
-		app.use(app.router);
-		app.enable("jsonp callback");
-	});
-
-	app.engine('ejs', engine);
-
-	app.configure('development', function(){
-	   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-	});
-
-	app.configure('production', function(){
-	   app.use(express.errorHandler());
-	});
-
-	app.use(function(err, req, res, next){
-	   res.render('500.ejs', { locals: { error: err },status: 500 });
-	});
-
-	server = app.listen(port);
-	console.log("Listening on port %d in %s mode", server.address().port, app.settings.env);
-
-	return app;
-	}
-
-app.use(express.cookieParser());
-app.use(express.cookieSession({cookie:{path:'/',httpOnly:true,maxAge:null},secret:'skeletor'}));
-
-app.use(express.static(__dirname + '/static'));
-=======
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require("express");
+var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
-var ejs = require('ejs');
-var fs = require('fs');
-var http = require('http');
+
+var ejs = require("ejs");
+var fs = require("fs");
+var http = require("http");
 
 var app = express();
-var db = redis.createClient();
-var jsonParser = body.Parser.json();
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
-app.use(function(err, req, res, next){
-		console.error(err.stack);
-		res.end(err.status + ' ' + err.massage);
-	});
-};
+app.set('view engine', 'ejs');
 
-db.on('connect', function() { 
-    console.log('connected');
+app.get("/css/:stylesheetname", function (req, res, next) {
+    var options = {
+        root: __dirname + "/css/",
+        dotfiles: "deny",
+        headers: {
+            "x-timestamp": Date.now(),
+            "x-sent": true
+        }
+    };
+    var fileName = req.params.stylesheetname;
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).end();
+        }
+        else {
+            //console.log('Sent:', fileName);
+        }
+    });
+
 });
 
-// Aktivitaet abrufen
-app.get('/aktivitaet/:id', function(req, res){
-            db.get('aktivitaet'+req.params.id, function(err, rep){
-                if(rep){
-                    res.type('json').send(rep);
-                }
-                else{
-                    res.status(404).type('text').send("Die Aktivitaet ist nicht vorhanden"); //noch anders lösen
-                }
-            });
-   });
+app.get("/pic/:picname", function (req, res, next) {
 
-// Gruppe abrufen
-app.get('/gruppen/:id', function(req, res){
-            db.get('gruppen:'+req.params.id, function(err, rep){
-                if(rep){
-                    res.type('json').send(rep);
-                }
-                else{
-                    res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + "ist nicht vorhanden");
-                }
-            });
-   });
+    var options = {
+        root: __dirname + "/pic/",
+        dotfiles: "deny",
+        headers: {
+            "x-timestamp": Date.now(),
+            "x-sent": true
+        }
+    };
 
-// Gruppe hinzufügen
-app.post('/gruppen', function(req, res){
-    
-    var newgruppe = req.body;
-    
-    db.incr('id:gruppen', function(err, rep){
-        newgruppe.id = rep;
-        db.set('gruppen:'+ newgruppe.id, JSON.stringify(newgruppe),function(err, rep){
-			res.type('json').send(newgruppe).end();
-		});
+    var fileName = req.params.picname;
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).end();
+        }
+        else {
+            // console.log('Sent:', fileName);
+        }
+    });
+
+});
+
+app.get("/js/:jsname", function (req, res, next) {
+
+    var options = {
+        root: __dirname + "/js/",
+        dotfiles: "deny",
+        headers: {
+            "x-timestamp": Date.now(),
+            "x-sent": true
+        }
+    };
+
+    var fileName = req.params.jsname;
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).end();
+        }
+        else {
+            //console.log('Sent:'+ fileName);
+        }
     });
 
 });
 
 
-// Gruppe löschen
-app.delete('/gruppen/:id', function(req, res){
-    db.exists('gruppen:'+req.params.id, function(err, rep){
-        if(rep === 1){
-            db.del('gruppen:'+req.params.id,function(err, rep){
-                var temp = JSON.parse(rep);
-                    res.send(temp).end();
-            });
+
+app.get('/', jsonParser, function(req,res){
+    fs.readFile('./views/index.ejs', {encoding: 'utf-8'}, function(err, filestring){
+        if(err){
+            throw err;
         }
         else{
-            res.status(404).send("Gruppe nich vorhanden!").end();   
+            var options = {
+                host: 'localhost',
+                port: 3000,
+                path: '/',
+                method: 'GET',
+                headers: {
+                    accept: 'text/html'
+                }
+            }
+
+            var externalRequest = http.request(options, function(externalResponse){
+                console.log('connected');
+                externalResponse.on('data', function(chunk){
+
+                    var userdata = JSON.parse(chunk);
+                    console.log(userdata);
+                    var html = ejs.render(filestring, userdata);
+                    res.setHeader('content-type', 'text/html');
+                    res.writeHead(200);
+                    res.write(html);
+                    res.end();
+                });
+            });
+
+            externalRequest.end();
         }
     });
 });
 
-//  Maximale Größe einer Gruppe abrufen
-app.get('/gruppen/:id/maxgroesse', function(req, res){ 
-   db.exists('gruppen:' + req.params.id, function(err, rep){
-       if(rep === 1){
-            db.get('gruppen:'+req.params.id+'/maxgroesse', function(err, rep){
-                if(rep){
-                    var temp = JSON.parse(rep);
-                    res.send(temp).end();
+
+
+app.post('/redirect', function(req,res){
+    res.setHeader("content-type", "text/html");
+    res.render("filterergebnis.ejs");
+});
+
+
+
+app.get('/new', function(req,res){
+    res.setHeader("content-type", "text/html");
+    res.render("neueGruppe.ejs");
+});
+
+app.get('/redirect/:jsondata', function(req,res){
+var jsonData = JSON.parse(req.params.jsondata);
+    console.log(jsonData);
+    res.render('filterergebnis.ejs', {"dataJson" : jsonData});
+});
+
+app.post('/new', jsonParser, function(req,res){
+    var test = JSON.stringify(req.body);
+    fs.readFile('./views/neueGruppe.ejs', {encoding: 'utf-8'}, function(err, filestring){
+        if(err){
+            throw err;
+        }
+        else{
+            var options = {
+                host: 'localhost',
+                port: 3000,
+                path: '/new',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': test.length
                 }
-                else{
-                    res.status(404).type('text').send("Maximale Größe der Gruppe nicht vorhanden");
-                }
+            }
+
+            var req = http.request(options, function(response) {
+                response.on('data', function (chunk) {
+                    var userdata = JSON.parse(chunk);
+                    console.log(userdata);
+                    res.setHeader('content-type', 'text/html');
+                    res.writeHead(200);
+                    console.log(JSON.stringify(userdata));
+                    res.write(JSON.stringify(userdata));
+                    res.end();
+                });
             });
-       }
-       else {
-            res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + " ist nicht vorhanden");
-       }
-   });
+
+            req.on('error', function(e) {
+                console.log('problem with request: ' + e.message);
+            });
+        console.log(test);
+// write data to request body
+            req.write(test);
+            req.end();
+        }
+    });
 });
 
-// Maximale Größe der Gruppe anlegen
-app.post('/gruppen/:id/maxgroesse', function(req, res){
-	var newmaxgroesse = req.body;
-	db.get('gruppen:'+req.params.id, function(err, rep){
-       if(rep){
-		   db.set('gruppen:'+req.params.id+'/maxgroesse', JSON.stringify(newmaxgroesse),function(err, rep){
-			res.type('json').send(newmaxgroesse).end();
-		});
-       }
-       else{
-           res.status(404).type('text').send("Die Gruppe mit der ID " + req.params.id + " ist nicht vorhanden");
-       }
-   });
 
+app.post('/search', jsonParser, function(req,res){
+    var test = JSON.stringify(req.body);
+    fs.readFile('./views/filterergebnis.ejs', {encoding: 'utf-8'}, function(err, filestring){
+        if(err){
+            throw err;
+        }
+        else{
+            var options = {
+                host: 'localhost',
+                port: 3000,
+                path: '/search',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': test.length
+                }
+            }
+
+            var req = http.request(options, function(response) {
+                response.on('data', function (chunk) {
+                    var userdata = JSON.parse(chunk);
+                    console.log(userdata);
+                    res.setHeader('content-type', 'text/html');
+                    res.writeHead(200);
+                    console.log(JSON.stringify(userdata));
+                    res.write(JSON.stringify(userdata));
+                    res.end();
+                });
+            });
+
+            req.on('error', function(e) {
+                console.log('problem with request: ' + e.message);
+            });
+
+// write data to request body
+            console.log(typeof test);
+            req.write(test);
+            req.end();
+        }
+    });
 });
 
-app.listen(3000);
->>>>>>> origin/master
+
+
+app.listen(3001, function(){
+    console.log("Nutzer ist auf Port 3001");
+});
