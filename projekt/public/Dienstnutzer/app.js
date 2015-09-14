@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+
 app.set('view engine', 'ejs');
 
 app.get("/css/:stylesheetname", function (req, res, next) {
@@ -107,9 +108,7 @@ app.get('/', jsonParser, function(req,res){
                 console.log('connected');
                 externalResponse.on('data', function(chunk){
 
-                    var userdata = JSON.parse(chunk);
-                    console.log(userdata);
-                    var html = ejs.render(filestring, userdata);
+                    var html = ejs.render(filestring);
                     res.setHeader('content-type', 'text/html');
                     res.writeHead(200);
                     res.write(html);
@@ -137,14 +136,43 @@ app.get('/new', function(req,res){
 });
 
 app.get('/redirect/:jsondata', function(req,res){
-var jsonData = JSON.parse(req.params.jsondata);
-    console.log(jsonData);
+    var jsonData = JSON.parse(req.params.jsondata);
     res.render('filterergebnis.ejs', {"dataJson" : jsonData});
 });
 
-app.post('/new', jsonParser, function(req,res){
-    var test = JSON.stringify(req.body);
-    fs.readFile('./views/neueGruppe.ejs', {encoding: 'utf-8'}, function(err, filestring){
+app.post("/new", function(req, res){
+    var datas = JSON.stringify(req.body);
+
+    var options = {
+        host: "localhost",
+        port: 3000,
+        path: "/new",
+        method: "POST",
+        headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+            "Content-Length": Buffer.byteLength(datas)
+        }
+    };
+
+    var externalRequest = http.request(options, function(resp){
+        resp.on("data", function(chunk) {
+
+        var test = JSON.stringify(chunk);
+            res.setHeader('content-type', 'text');
+            res.writeHead(200);
+            res.write(test);
+            res.end();
+
+        });
+    });
+    externalRequest.write(datas);
+    externalRequest.end();
+});
+
+app.post('/login/:filename', jsonParser, function(req,res){
+    var datas = JSON.stringify(req.body);
+    fs.readFile('./views/'+req.params.filename, {encoding: 'utf-8'}, function(err, filestring){
         if(err){
             throw err;
         }
@@ -152,22 +180,23 @@ app.post('/new', jsonParser, function(req,res){
             var options = {
                 host: 'localhost',
                 port: 3000,
-                path: '/new',
+                path: '/login',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Content-Length': test.length
+                    'Content-Length': datas.length
                 }
             }
 
             var req = http.request(options, function(response) {
                 response.on('data', function (chunk) {
-                    var userdata = JSON.parse(chunk);
-                    console.log(userdata);
+                    var jsonparsed = JSON.parse(chunk);
+                    var userdata = JSON.stringify(jsonparsed);
+                    console.log(res);
+                    var html = ejs.render(filestring, {userdata : userdata});
                     res.setHeader('content-type', 'text/html');
                     res.writeHead(200);
-                    console.log(JSON.stringify(userdata));
-                    res.write(JSON.stringify(userdata));
+                    res.write(html);
                     res.end();
                 });
             });
@@ -175,17 +204,56 @@ app.post('/new', jsonParser, function(req,res){
             req.on('error', function(e) {
                 console.log('problem with request: ' + e.message);
             });
-        console.log(test);
-// write data to request body
-            req.write(test);
+            req.write(datas);
             req.end();
         }
     });
 });
 
+app.post('/login/:filename/:jsondata', jsonParser, function(req,res){
+    var datas = JSON.stringify(req.body);
+    fs.readFile('./views/'+req.params.filename, {encoding: 'utf-8'}, function(err, filestring){
+        if(err){
+            throw err;
+        }
+        else{
+            var options = {
+                host: 'localhost',
+                port: 3000,
+                path: '/login',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': datas.length
+                }
+            }
+
+            var request = http.request(options, function(response) {
+                response.on('data', function (chunk) {
+                    var jsonparsed = JSON.parse(chunk);
+                    var userdata = JSON.stringify(jsonparsed);
+                    var jsonData = JSON.parse(req.params.jsondata);
+                    var html = ejs.render(filestring, {userdata : userdata, "dataJson": jsonData});
+                    res.setHeader('content-type', 'text/html');
+                    res.writeHead(200);
+                    res.write(html);
+                    res.end();
+                });
+            });
+
+            request.on('error', function(e) {
+                console.log('problem with request: ' + e.message);
+            });
+            request.write(datas);
+            request.end();
+        }
+    });
+});
+
+
 
 app.post('/search', jsonParser, function(req,res){
-    var test = JSON.stringify(req.body);
+    var datas = JSON.stringify(req.body);
     fs.readFile('./views/filterergebnis.ejs', {encoding: 'utf-8'}, function(err, filestring){
         if(err){
             throw err;
@@ -197,18 +265,17 @@ app.post('/search', jsonParser, function(req,res){
                 path: '/search',
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': test.length
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Content-Length": Buffer.byteLength(datas)
                 }
             }
 
             var req = http.request(options, function(response) {
                 response.on('data', function (chunk) {
                     var userdata = JSON.parse(chunk);
-                    console.log(userdata);
                     res.setHeader('content-type', 'text/html');
                     res.writeHead(200);
-                    console.log(JSON.stringify(userdata));
                     res.write(JSON.stringify(userdata));
                     res.end();
                 });
@@ -219,8 +286,7 @@ app.post('/search', jsonParser, function(req,res){
             });
 
 // write data to request body
-            console.log(typeof test);
-            req.write(test);
+            req.write(datas);
             req.end();
         }
     });

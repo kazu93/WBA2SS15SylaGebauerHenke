@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="utf-8">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<meta charset="utf-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/datepicker.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-    <title>Nationalparkentdecker</title>
+    <link href="/css/colorbox.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+<title>Nationalparkentdecker</title>
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap-datepicker.js"></script>
     <script src="/js/bootstrap-datepicker.de.js"></script>
+    <script src="/js/jquery.colorbox-min.js"></script>
     <script src="/js/jquery_content.js"></script>
-
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" data-offset="50">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -24,46 +25,49 @@
 
             </button>
             <a class="navbar-brand" rel="home" href="#" title="Buy Sell Rent Everyting">
-                <!--          <img src="http://placehold.it/100x20/fff/fff">-->
 
             </a>
 
         </div>
         <div class="logo">
-            <a href="#"><img src="../pic/logo.png" alt="Nationalparkentdecker Logo" width="180px" height="120px"></a>
+            <a href="/"><img src="/pic/logo.png" alt="Nationalparkentdecker Logo" width="180px" height="120px"></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
 
-                <li class="page-scroll"><a href="#">Login</a>
+                <%if(typeof userdata != 'undefined'){
+                var user = JSON.parse(userdata); %>
 
-                </li>
+                <li class="page-scroll"><a href="#" class="<%- user.users[0].rolle%>" style="margin-top: 20px;"><div class="loginname"><%-user.users[0].username%></div></a></li>
+                <%}else{%>
+                <li class="page-scroll"><a class="inline" href="#inline_content">Login</a></li>
+                <%}%>
                 <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Parkinfos <b class="caret"></b></a>
 
                     <ul role="menu" class="dropdown-menu page-scroll">
-                        <li><a href="#aktivitäten">Bayerischer Wald (BY)</a></li>
-                        <li><a href="#aktivitäten">Berchtesgaden (BY)</a></li>
-                        <li><a href="#aktivitäten">Eifel (NRW)</a></li>
-                        <li><a href="#aktivitäten">Hainich (TH)</a></li>
-                        <li><a href="#aktivitäten">Hamburgisches Wattenmeer (HH)</a></li>
-                        <li><a href="#aktivitäten">Harz (ST, NI)</a></li>
-                        <li><a href="#aktivitäten">Hunsrück-Hochwald (SL, RP)</a></li>
-                        <li><a href="#aktivitäten">Jasmund (MV)</a></li>
-                        <li><a href="#aktivitäten">Kellerwald-Edersee (HE)</a></li>
-                        <li><a href="#aktivitäten">Müritz (MV)</a></li>
-                        <li><a href="#aktivitäten">Niedersächsisches Wattenmeer (NI)</a></li>
-                        <li><a href="#aktivitäten">Sächsische Schweiz (SN)</a></li>
-                        <li><a href="#aktivitäten">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
-                        <li><a href="#aktivitäten">Schwarzwald (BW)</a></li>
-                        <li><a href="#aktivitäten">Unteres Odertal (BB)</a></li>
-                        <li><a href="#aktivitäten">Vorpommersche Boddenlandschaft (MV)</a></li>
+                        <li><a href="#">Bayerischer Wald (BY)</a></li>
+                        <li><a href="#">Berchtesgaden (BY)</a></li>
+                        <li><a href="#">Eifel (NRW)</a></li>
+                        <li><a href="#">Hainich (TH)</a></li>
+                        <li><a href="#">Hamburgisches Wattenmeer (HH)</a></li>
+                        <li><a href="#">Harz (ST, NI)</a></li>
+                        <li><a href="#">Hunsrück-Hochwald (SL, RP)</a></li>
+                        <li><a href="#">Jasmund (MV)</a></li>
+                        <li><a href="#">Kellerwald-Edersee (HE)</a></li>
+                        <li><a href="#">Müritz (MV)</a></li>
+                        <li><a href="#">Niedersächsisches Wattenmeer (NI)</a></li>
+                        <li><a href="#">Sächsische Schweiz (SN)</a></li>
+                        <li><a href="#">Schleswig-Holsteinisches Wattenmeer (SH)</a></li>
+                        <li><a href="#">Schwarzwald (BW)</a></li>
+                        <li><a href="#">Unteres Odertal (BB)</a></li>
+                        <li><a href="#">Vorpommersche Boddenlandschaft (MV)</a></li>
                     </ul>
                 </li>
 
-                <li class="page-scroll"><a href="#aktuelles">Kontakt</a>
+                <li class="page-scroll"><a href="#">Kontakt</a>
 
                 </li>
-                <li class="page-scroll"><a href="#unterkünfte">Hilfe</a>
+                <li class="page-scroll"><a href="#">Hilfe</a>
 
                 </li>
             </ul>
@@ -100,7 +104,7 @@
                     </ul>
                 </div>
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default dropdown-toggle drop-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="aktivitat">Aktivität <span class="caret"></span>
+                    <button type="button" class="btn btn-default dropdown-toggle drop-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="aktivitat">Aktivitaet <span class="caret"></span>
 
                     </button>
 
@@ -124,7 +128,7 @@
                 <input type="text" class="form-control datepicker" name="date" placeholder="Datum auswählen"><span class="input-group-btn">
 
         <button type="button" class="btn btn-success search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </button>
+            </button>
 
           </span>
 
@@ -135,89 +139,35 @@
 
     </div>
 </div>
-<div class="container">
-    <div id="aktivitäten" class="well well-green">
-        <h3>Klettern</h3>
 
+<!-- inline content-->
+<div style="display:none">
+    <div id="inline_content" style="padding:10px; background: #f7f7f7;">
+        <form role="form" method="post" action="/login/index.ejs">
+            <h3 style="color: black;">Login:</h3><hr>
+            <div class="row" style="margin: 10px 0px 0px 0px;">
+                <div class="col-sm-6">
+                    <label>Username:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" style="float: right" name="username"><br>
+                </div>
+            </div>
+            <div class="row" style="margin: 10px 0px 0px 0px;">
+                <div class="col-sm-6">
+                    <label>Passwort:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="password" style="float: right" name="passwd"><br>
+                </div>
+            </div>
+            <div class="row" style="margin: 10px 0px 0px 0px;">
+                <div class="col-sm-6 col-sm-offset-6">
+                    <input type="submit" value="Senden" class="btn btn-info" style="float: right;">
+                </div>
+            </div>
+        </form>
     </div>
-
-
-    <form id="park-form">
-        <div class="row">
-
-
-            <div class="col-sm-4">
-                <div class="form-group">
-                    Dauer
-                    <select class="form-control" class="filter">
-                        <option class="bla">1h</option>
-                        <option>1,5h</option>
-                        <option>2h</option>
-                        <option>2,5h</option>
-                        <option>3h</option>
-                        <option>3,5h</option>
-                        <option>4h</option>
-                        <option>4,5h</option>
-                        <option>5h</option>
-                        <option>5,5h</option>
-                        <option>6h</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    Schwierigkeitsgrad
-                    <select class="form-control">
-                        <option>Anfänger</option>
-                        <option>Fortgeschrittene</option>
-                        <option>Profis</option>
-                    </select>
-                </div>
-            </div>
-            </br>
-            <div class="col-sm-4">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Profi-/Ranger-geführt
-                    </label>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <table class="table" class="table-hover">
-        <% for(var i=0; i < dataJson.Gruppen.length; i++) { %>
-        <tr>
-            <td><%- dataJson.Gruppen[i].ort %></td>
-            <td><%- dataJson.Gruppen[i].activity %></td>
-            <td><%- dataJson.Gruppen[i].datum %></td>
-            <td class="dauer"><%- "Dauer: "+dataJson.Gruppen[i].dauer %></td>
-            <td><%- dataJson.Gruppen[i].schwierigkeitsgrad %></td>
-            <td><%- dataJson.Gruppen[i].frei+" frei" %></td>
-            <td><%- dataJson.Gruppen[i].profi == true %></td>
-            <td>
-                <button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                </button>
-
-            </td>
-        </tr>
-        <% }%>
-    </table>
-
-
-    <div class="row">
-        </br>
-        </br>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <a href="/new"><button type="button" class="btn btn-warning" id="new-group">Neue Gruppe erstellen</button></a>
-
-                <br>
-            </div>
-        </div>
-    </div>
-
 </div>
 </body>
 </html>

@@ -1,3 +1,7 @@
+/* ==================================================================================
+                                Allgemeine Settings
+    ===============================================================================*/
+
 html,
 body {
   height: 100%;
@@ -30,37 +34,67 @@ h4 {
     color:green;
 }
 
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==================================================================================
+                                Navigation
+    ===============================================================================*/
+
+
 .logo {
     float:left;
     margin-left:-50px;
     margin-top: -10px;
 }
 
-
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-}
-.clearfix {
-  *zoom: 1;
-}
 .navbar-default.affix {
   margin: auto;
   right: 0;
   left: 0;
   transition: all .6s ease-in-out;
 }
+
+.loginname{
+    margin-top: -15px;
+}
+
+.admin{
+    border: 2px greenyellow solid;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.profi{
+    border: 2px indianred solid;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+
+/* ==================================================================================
+                                Landing Page
+    ===============================================================================*/
+
+
 .home-section {
     margin-top: -50px; /*darf man das?????????*/
     padding-top: 150px;
-  height: 800px;
+  height: 100%;
   width: 100%;
     overflow: hidden;
-  background: url(/pic/balderschwang.jpg);
+  background: url(../pic/balderschwang.jpg);
   background-size: cover;
   color: rgb(207, 207, 207);
   text-align: center;
@@ -106,7 +140,9 @@ fieldset.fieldset-border {
 }
 
 
-
+/* ==================================================================================
+                                Overwrite Bootstrap Settings
+    ===============================================================================*/
 .navbar-default {
   background-color: transparent; /*Change with transparent*/
   border: none;/*Change with transparent*/
@@ -146,6 +182,7 @@ fieldset.fieldset-border {
 /*  color: #ff0000;*/
     text-decoration: underline;
   background-color: transparent;
+
     
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
@@ -191,13 +228,3 @@ fieldset.fieldset-border {
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover{
     background-color: transparent;
 }
-/*
-.link-wrapper{
-    
-    border: 2px solid black;
-    padding:  7px;
-    margin-top: -7px;
-    -webkit-border-radius: 5px;
--moz-border-radius: 5px;
-border-radius: 5px;
-}*/

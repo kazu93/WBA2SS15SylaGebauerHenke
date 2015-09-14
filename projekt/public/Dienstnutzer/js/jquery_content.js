@@ -1,29 +1,22 @@
-
-
 $(function() {
     $("#ort li a").click(function(){
         $("#nationalpark").html($(this).html());
         $("#nationalpark").append(" <span class='caret'></span>");
         $("nationalpark").val($(this).text());
     });
-});
 
-$(function() {
     $("#aktivitat-menu li a").click(function(){
         $("#aktivitat").html($(this).html());
         $("#aktivitat").append(" <span class='caret'></span>");
         $("#aktivitat").val($(this).text());
     });
-});
-$(function() {
+
     $('.datepicker').datepicker({
         format: 'dd.mm.yyyy',
         todayBtn: 'linked',
         language: 'de'
     });
-});
 
-$(function() {
     $(".search").click(function () {
 
         var park = $("#nationalpark").text();
@@ -32,16 +25,15 @@ $(function() {
 
         var activity = $("#aktivitat").text();
         activity = activity.trim();
-        var datum = $(".container").attr("name", "date").text();
+        var date = $("[name=date]").val();
 
         $.ajax({
             method: "POST",
             url: "/search",
-            data: {ort: park[0], activity: activity, datum: "01.09.2015"},
+            data: {ort: park[0], activity: activity, datum: date},
             dataType: "json",
             success: function (data) {
                 data = JSON.stringify(data);
-                alert(data);
                 $(location).attr('href', '/redirect/' + data);
             }
             , error: function (jqXHR, textStatus, err) {
@@ -49,9 +41,7 @@ $(function() {
             }
         });
     });
-});
 
-$(function() {
     $("#bestaetigen").click(function () {
 
         var ort = $("[name=ort]").val();
@@ -73,12 +63,39 @@ $(function() {
             data: {ort: park[0], activity: activity, datum: date, teilnehmerzahl: teilnehmerzahl, schwierigkeit : schwierigkeit, dauer : dauer, time : time, treffpunkt : treffpunkt},
             dataType: "json",
             success: function (data) {
-                alert(data);
+                alert("Gruppe erfolgreich angelegt!");
+                location.reload();
             }
             , error: function (jqXHR, textStatus, err) {
                 alert('text status ' + textStatus + ', err ' + err)
             }
         });
+
+    });
+
+    $(".inline").colorbox({inline:true, width: "400px", opacity: "0.5"});
+
+
+    $("#login-submit").click(function(){
+        var redirect = window.location.href;
+        redirect = redirect.split('/');
+       $("#login-form").attr("action", '/login/filterergebnis.ejs/'+redirect[4]);
+    });
+
+
+    $(".filter").change(function(){
+
+        var filter = $(".filter option:selected").val();
+        $("td:not(:contains("+ filter +"))").parent().fadeOut();
+        $("td:contains("+filter+")").parent().fadeIn();
+
+    });
+
+    $(".sfilter").change(function(){
+
+        var filter = $(".sfilter option:selected").val();
+        $("td:not(:contains("+ filter +"))").parent().fadeOut();
+        $("td:contains("+filter+")").parent().fadeIn();
 
     });
 });
